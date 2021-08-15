@@ -1,18 +1,24 @@
 server:
-  port: 8082
+  port: 8080
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8083/eureka
 
 spring:
+  application:
+    name: gateway-service
   cloud:
+    config:
+      enabled: false
     gateway:
       routes:
-        - id : microservice1
-          uri : http://localhost:8080/
+        - id: one
+          uri: lb://first-service
           predicates:
             - Path=/one/**
-        - id: microservice2
-          uri : http://localhost:8081/
+        - id: two
+          uri: lb://second-service
           predicates:
             - Path=/two/**
-
-
