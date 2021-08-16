@@ -1,5 +1,7 @@
 package com.example.gateway.component;
 
+import com.example.gateway.entity.User;
+import com.example.gateway.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,9 +54,14 @@ public class JwtTokenUtil implements Serializable {
 //                .signWith(SignatureAlgorithm.HS512, secret).compact();
 //    }
 
+
+
+
     public Boolean validateToken(String token) {
         final String username = getUsernameFromToken(token);
-        return (username.equals("javainuse") && !isTokenExpired(token));
+        for(User user:new UserService().getUsers())
+            return (username.equals(user.getUsername()) && !isTokenExpired(token));
+        return false;
     }
 
 }
